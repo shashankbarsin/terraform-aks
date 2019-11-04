@@ -28,6 +28,7 @@ stages:
         TF_VAR_location: $(location)
         TF_VAR_kubernetes_client_id: $(appId)
         TF_VAR_kubernetes_client_secret: $(password)
+        TF_IN_AUTOMATION: 1
 - stage: Apply
   displayName: Apply
   jobs:
@@ -38,7 +39,7 @@ stages:
     steps:
     - script: |
         terraform init -input=false
-        terraform apply -input=false
+        terraform apply -input=false -auto-approve
       env:
         ARM_SUBSCRIPTION_ID: $(subscriptionId)
         ARM_CLIENT_ID: $(appId)
@@ -49,3 +50,4 @@ stages:
         TF_VAR_location: $(location)
         TF_VAR_kubernetes_client_id: $(appId)
         TF_VAR_kubernetes_client_secret: $(password)
+        TF_IN_AUTOMATION: 1
