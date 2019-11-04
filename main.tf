@@ -1,6 +1,10 @@
 resource "azurerm_resource_group" "example" {
   name     = "${var.prefix}-k8s-resources"
   location = "${var.location}"
+  
+  tags = {
+    DaysToDelete = "Never"
+  }
 }
 
 resource "azurerm_kubernetes_cluster" "example" {
@@ -24,6 +28,5 @@ resource "azurerm_kubernetes_cluster" "example" {
 
   tags = {
     Environment = "Production"
-    DaysToDelete = "Never"
   }
 }
