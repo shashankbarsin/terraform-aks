@@ -41,6 +41,7 @@ stages:
       runOnce:
         deploy:
           steps:
+          - checkout: self
           - script: |
               terraform init -input=false
               terraform apply -input=false -auto-approve
