@@ -24,5 +24,6 @@ resource "azurerm_kubernetes_cluster" "example" {
 
   tags = {
     Environment = "Production"
+    DaysToDelete = "Never"
   }
 }
