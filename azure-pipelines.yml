@@ -1,6 +1,11 @@
 trigger:
 - master
 
+variables:
+  skipComponentGovernanceDetection: true
+  prefix: ignite-sasha-demo
+  location: eastus
+
 stages:
 - stage: InitAndPlan
   displayName: InitAndPlan
@@ -19,8 +24,8 @@ stages:
         ARM_CLIENT_SECRET: $(password)
         ARM_TENANT_ID: $(tenantId)
         ARM_ACCESS_KEY: $(accessKey)
-        TF_VAR_prefix: ignite-sasha-demo
-        TF_VAR_location: eastus
+        TF_VAR_prefix: $(prefix)
+        TF_VAR_location: $(location)
         TF_VAR_kubernetes_client_id: $(appId)
         TF_VAR_kubernetes_client_secret: $(password)
 - stage: Apply
@@ -40,7 +45,7 @@ stages:
         ARM_CLIENT_SECRET: $(password)
         ARM_TENANT_ID: $(tenantId)
         ARM_ACCESS_KEY: $(accessKey)
-        TF_VAR_prefix: ignite-sasha-demo
-        TF_VAR_location: eastus
+        TF_VAR_prefix: $(prefix)
+        TF_VAR_location: $(location)
         TF_VAR_kubernetes_client_id: $(appId)
         TF_VAR_kubernetes_client_secret: $(password)
