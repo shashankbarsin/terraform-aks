@@ -13,7 +13,7 @@ stages:
   - job: InitAndPlan
     displayName: InitAndPlan
     pool:
-      vmImage: 'ubuntu-latest'
+      vmImage: ubuntu-latest
     steps:
     - script: |
         terraform init -input=false
@@ -32,22 +32,26 @@ stages:
 - stage: Apply
   displayName: Apply
   jobs:
-  - job: Apply
+  - deployment: Apply
     displayName: Apply
     pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - script: |
-        terraform init -input=false
-        terraform apply -input=false -auto-approve
-      env:
-        ARM_SUBSCRIPTION_ID: $(subscriptionId)
-        ARM_CLIENT_ID: $(appId)
-        ARM_CLIENT_SECRET: $(password)
-        ARM_TENANT_ID: $(tenantId)
-        ARM_ACCESS_KEY: $(accessKey)
-        TF_VAR_prefix: $(prefix)
-        TF_VAR_location: $(location)
-        TF_VAR_kubernetes_client_id: $(appId)
-        TF_VAR_kubernetes_client_secret: $(password)
-        TF_IN_AUTOMATION: 1
+      vmImage: ubuntu-latest
+    environment: production
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - script: |
+              terraform init -input=false
+              terraform apply -input=false -auto-approve
+            env:
+              ARM_SUBSCRIPTION_ID: $(subscriptionId)
+              ARM_CLIENT_ID: $(appId)
+              ARM_CLIENT_SECRET: $(password)
+              ARM_TENANT_ID: $(tenantId)
+              ARM_ACCESS_KEY: $(accessKey)
+              TF_VAR_prefix: $(prefix)
+              TF_VAR_location: $(location)
+              TF_VAR_kubernetes_client_id: $(appId)
+              TF_VAR_kubernetes_client_secret: $(password)
+              TF_IN_AUTOMATION: 1
