@@ -1,0 +1,46 @@
+trigger:
+- master
+
+stages:
+- stage: InitAndPlan
+  displayName: InitAndPlan
+  jobs:
+  - job: InitAndPlan
+    displayName: InitAndPlan
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - script: |
+        terraform init -input=false
+        terraform plan -input=false
+      env:
+        ARM_SUBSCRIPTION_ID: $(subscriptionId)
+        ARM_CLIENT_ID: $(appId)
+        ARM_CLIENT_SECRET: $(password)
+        ARM_TENANT_ID: $(tenantId)
+        ARM_ACCESS_KEY: $(accessKey)
+        TF_VAR_prefix: ignite-sasha-demo
+        TF_VAR_location: eastus
+        TF_VAR_kubernetes_client_id: $(appId)
+        TF_VAR_kubernetes_client_secret: $(password)
+- stage: Apply
+  displayName: Apply
+  jobs:
+  - job: Apply
+    displayName: Apply
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - script: |
+        terraform init -input=false
+        terraform apply -input=false
+      env:
+        ARM_SUBSCRIPTION_ID: $(subscriptionId)
+        ARM_CLIENT_ID: $(appId)
+        ARM_CLIENT_SECRET: $(password)
+        ARM_TENANT_ID: $(tenantId)
+        ARM_ACCESS_KEY: $(accessKey)
+        TF_VAR_prefix: ignite-sasha-demo
+        TF_VAR_location: eastus
+        TF_VAR_kubernetes_client_id: $(appId)
+        TF_VAR_kubernetes_client_secret: $(password)
