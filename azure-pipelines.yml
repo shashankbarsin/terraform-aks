@@ -3,7 +3,7 @@ trigger:
 
 variables:
   skipComponentGovernanceDetection: true
-  prefix: ignite-sasha-demo
+  prefix: ignite-sasha-demo-2
   location: eastus
 
 stages:
